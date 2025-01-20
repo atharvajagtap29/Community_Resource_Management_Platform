@@ -40,9 +40,9 @@ const getResourceTypeById = async (req, res) => {
 // Create a new resource type
 const createResourceType = async (req, res) => {
   try {
-    const { resource_name, description } = req.body;
+    const { resource_type_name, description } = req.body;
     const resourceType = await resourceTypeService.createResourceType({
-      resource_name,
+      resource_type_name,
       description,
     });
     res.status(201).json({
@@ -63,9 +63,9 @@ const createResourceType = async (req, res) => {
 const updateResourceType = async (req, res) => {
   try {
     const { id } = req.params;
-    const { resource_name, description } = req.body;
+    const { resource_type_name, description } = req.body;
     const resourceType = await resourceTypeService.updateResourceType(id, {
-      resource_name,
+      resource_type_name,
       description,
     });
     res.status(200).json({

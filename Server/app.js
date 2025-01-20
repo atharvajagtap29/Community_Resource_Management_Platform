@@ -10,6 +10,7 @@ const resourceRouter = require("./routes/resource.routes");
 const reservationRouter = require("./routes/reservation.routes");
 const complaintRouter = require("./routes/complaint.routes");
 const teamRouter = require("./routes/team.routes");
+const resourceRequestRouter = require("./routes/resource_request.routes");
 
 // CORS middleware
 app.use(cors()); // Temporarily allow for all origins. Later only allow requests coming from react frontend
@@ -40,6 +41,7 @@ app.use("/api/v1/resources", resourceRouter);
 app.use("/api/v1/reservations", reservationRouter);
 app.use("/api/v1/complaints", complaintRouter);
 app.use("/api/v1/teams", teamRouter);
+app.use("/api/v1/resource_request", resourceRequestRouter);
 
 // Export app for server startup
 module.exports = app;

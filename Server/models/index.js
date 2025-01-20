@@ -5,6 +5,7 @@ const Resource = require("./resource");
 const Reservation = require("./reservation");
 const Complaint = require("./compaint");
 const Team = require("./team");
+const Resource_Request = require("./resource_request");
 
 // Define associations between models
 
@@ -44,6 +45,24 @@ User.belongsTo(Team, { foreignKey: "team_id" }); // Only employees will have a t
 Team.hasMany(Complaint, { foreignKey: "team_id" });
 Complaint.belongsTo(Team, { foreignKey: "team_id" }); // Complaints can be assigned to a specific team
 
+// One-to-many relationship between User (Vendor) and Resource_Request
+User.hasMany(Resource_Request, { foreignKey: "vendor_id", as: "vendor" });
+Resource_Request.belongsTo(User, { foreignKey: "vendor_id", as: "vendor" });
+
+// One-to-many relationship between Resource_Type and Resource_Request
+Resource_Type.hasMany(Resource_Request, {
+  foreignKey: "resource_type_id",
+  as: "resourceType",
+});
+Resource_Request.belongsTo(Resource_Type, {
+  foreignKey: "resource_type_id",
+  as: "resourceType",
+});
+
+// One-to-many relationship between Area and Resource_Request
+Area.hasMany(Resource_Request, { foreignKey: "area_id", as: "area" });
+Resource_Request.belongsTo(Area, { foreignKey: "area_id", as: "area" });
+
 module.exports = {
   User,
   Area,
@@ -52,4 +71,5 @@ module.exports = {
   Reservation,
   Complaint,
   Team,
+  Resource_Request,
 };

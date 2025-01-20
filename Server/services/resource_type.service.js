@@ -27,11 +27,11 @@ const getResourceTypeById = async (id) => {
 };
 
 // Create a new resource type
-const createResourceType = async ({ resource_name, description }) => {
+const createResourceType = async ({ resource_type_name, description }) => {
   try {
     const newResourceType = {
       id: uuidv4(), // Generate new UUID
-      resource_type_name: resource_name, // Use resource_name instead of resource_name
+      resource_type_name: resource_type_name, // Use resource_name instead of resource_name
       description,
       created_at: new Date(),
     };
@@ -44,12 +44,12 @@ const createResourceType = async ({ resource_name, description }) => {
 };
 
 // Update an existing resource type
-const updateResourceType = async (id, { resource_name, description }) => {
+const updateResourceType = async (id, { resource_type_name, description }) => {
   try {
     const resourceType = await Resource_Type.findByPk(id);
     if (!resourceType) throw new Error("Resource type not found");
     await resourceType.update({
-      resource_type_name: resource_name,
+      resource_type_name: resource_type_name,
       description,
       updated_at: new Date(),
     });

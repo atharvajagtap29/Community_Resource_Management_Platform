@@ -1,5 +1,5 @@
 const { Reservation, Resource, User } = require("../models/index");
-const { RESERVATION_STATUS } = require("../utils/constants");
+const { STATUS } = require("../utils/constants");
 const { v4: uuidv4 } = require("uuid");
 
 // Fetch all reservations
@@ -42,7 +42,6 @@ const createReservation = async ({
   end_time,
 }) => {
   try {
-    // Validate resource_id and user_id
     const resource = await Resource.findByPk(resource_id);
     if (!resource)
       throw new Error("Invalid resource_id. Resource does not exist.");
@@ -56,7 +55,7 @@ const createReservation = async ({
       user_id,
       start_time,
       end_time,
-      reservation_status: RESERVATION_STATUS.PENDING,
+      status: STATUS.PENDING,
       created_at: new Date(),
     };
     return await Reservation.create(newReservation);
@@ -75,7 +74,6 @@ const updateReservation = async (
     const reservation = await Reservation.findByPk(id);
     if (!reservation) throw new Error("Reservation not found");
 
-    // Validate resource_id and user_id if provided
     if (resource_id) {
       const resource = await Resource.findByPk(resource_id);
       if (!resource)
@@ -118,17 +116,14 @@ const approveReservation = async (id) => {
   try {
     const reservation = await Reservation.findByPk(id);
     if (!reservation) throw new Error("Reservation not found");
-    if (reservation.reservation_status !== RESERVATION_STATUS.PENDING) {
+    if (reservation.status !== STATUS.PENDING) {
       throw new Error("Only pending reservations can be approved");
     }
 
-    // Update the reservation status
     await reservation.update({
-      reservation_status: RESERVATION_STATUS.CONFIRMED,
+      status: STATUS.CONFIRMED,
       updated_at: new Date(),
     });
-
-    // Return the updated reservation object
     return reservation;
   } catch (error) {
     console.error(`approveReservation service error: ${error}`);
@@ -141,19 +136,15 @@ const rejectReservation = async (id) => {
   try {
     const reservation = await Reservation.findByPk(id);
     if (!reservation) throw new Error("Reservation not found");
-    if (reservation.reservation_status !== RESERVATION_STATUS.PENDING) {
+    if (reservation.status !== STATUS.PENDING) {
       throw new Error("Only pending reservations can be rejected");
     }
 
-    // Update the reservation status
     await reservation.update({
-      reservation_status: RESERVATION_STATUS.REJECTED,
+      status: STATUS.REJECTED,
       updated_at: new Date(),
     });
-
-    // Re-fetch the updated reservation
-    const updatedReservation = await Reservation.findByPk(id);
-    return updatedReservation;
+    return reservation;
   } catch (error) {
     console.error(`rejectReservation service error: ${error}`);
     throw new Error(error.message || "Error rejecting reservation");

@@ -1,9 +1,9 @@
 // APPLICATION USER ROLES
 const USER_ROLES = {
   ADMIN: "admin",
-  EMPLOYEE: "employee",
-  END_USER: "end_user",
-  GUEST: "guest",
+  EMPLOYEE: "employee", // Employees will also be created by admin user. [vendor & employee]
+  END_USER: "end_user", // Self registration
+  VENDOR: "vendor", // Vendor will assume is on subscription basis. Once subscribed, admin himself will add a vendor user.
 };
 
 // COMPLAINT STATUS
@@ -14,8 +14,8 @@ const COMPLAINT_STATUS = {
   REJECTED: "REJECTED",
 };
 
-// RESERVATION STATUS
-const RESERVATION_STATUS = {
+// UNIVERSAL STATUS
+const STATUS = {
   PENDING: "PENDING",
   CONFIRMED: "CONFIRMED",
   CANCELED: "CANCELED",
@@ -25,5 +25,5 @@ const RESERVATION_STATUS = {
 module.exports = {
   USER_ROLES,
   COMPLAINT_STATUS,
-  RESERVATION_STATUS,
+  STATUS,
 };
