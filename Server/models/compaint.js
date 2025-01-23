@@ -41,6 +41,10 @@ const Complaint = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    handler_message: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,

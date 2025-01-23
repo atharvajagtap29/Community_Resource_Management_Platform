@@ -1,6 +1,9 @@
-const { User, Area, Team } = require("../models/index");
+const { User, Area, Team, Complaint } = require("../models/index");
 const { USER_ROLES } = require("../utils/constants");
 const { v4: uuidv4 } = require("uuid");
+const { COMPLAINT_STATUS } = require("../utils/constants");
+
+// ADMIN SERVICES
 
 // Fetch all users
 const getAllUsers = async () => {
@@ -52,8 +55,8 @@ const createUser = async ({
       if (!team) throw new Error("Invalid team_id. Team does not exist.");
     }
 
-    // If role is not EMPLOYEE, validate area_id
-    if (role !== USER_ROLES.EMPLOYEE) {
+    // If role is not EMPLOYEE OR ADMIN, validate area_id
+    if (![USER_ROLES.EMPLOYEE, USER_ROLES.ADMIN].includes(role)) {
       if (!area_id)
         throw new Error("area_id is required for non-employee roles.");
 
@@ -152,10 +155,84 @@ const deleteUser = async (id) => {
   }
 };
 
+// EMPLOYEE SERVICES
+
+// Fetch team details of the logged-in employee
+const getTeamDetails = async (employeeId) => {
+  try {
+    const employee = await User.findByPk(employeeId);
+    if (!employee || employee.role !== USER_ROLES.EMPLOYEE) {
+      throw new Error("Invalid employee ID or the user is not an employee.");
+    }
+
+    const team = await Team.findByPk(employee.team_id);
+    if (!team) {
+      throw new Error("Team not found for the employee.");
+    }
+
+    return team;
+  } catch (error) {
+    console.error(`getTeamDetails service error: ${error}`);
+    throw new Error(error.message || "Error fetching team details");
+  }
+};
+
+// Fetch list of complaints assigned to the employee's team
+const getAssignedComplaints = async (employeeId) => {
+  try {
+    const employee = await User.findByPk(employeeId);
+    if (!employee || employee.role !== USER_ROLES.EMPLOYEE) {
+      throw new Error("Invalid employee ID or the user is not an employee.");
+    }
+
+    const complaints = await Complaint.findAll({
+      where: { team_id: employee.team_id },
+    });
+
+    return complaints;
+  } catch (error) {
+    console.error(`getAssignedComplaints service error: ${error}`);
+    throw new Error(error.message || "Error fetching assigned complaints");
+  }
+};
+
+const updateComplaintStatus = async (id, status) => {
+  try {
+    // Validate status
+    if (!Object.values(COMPLAINT_STATUS).includes(status)) {
+      throw new Error(
+        `Invalid status. Must be one of ${Object.values(COMPLAINT_STATUS).join(
+          ", "
+        )}`
+      );
+    }
+
+    // Find the complaint
+    const complaint = await Complaint.findByPk(id);
+    if (!complaint) {
+      throw new Error("Complaint not found");
+    }
+
+    // Update the complaint's status
+    complaint.complaint_status = status;
+    await complaint.save();
+
+    return complaint;
+  } catch (error) {
+    console.error(`updateComplaintStatus service error: ${error}`);
+    throw new Error(error.message || "Error updating complaint status");
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
   createUser,
   updateUser,
   deleteUser,
+
+  // Employee
+  getTeamDetails,
+  getAssignedComplaints,
+  updateComplaintStatus,
 };

@@ -101,10 +101,75 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// EMPLOYEE CONTROLLER
+const getTeamDetails = async (req, res) => {
+  try {
+    const { id } = req.params; // Assuming user ID is available in req.user after authentication
+    const teamDetails = await userService.getTeamDetails(id);
+    res.status(200).json({
+      success: true,
+      message: "Fetched team details successfully",
+      data: teamDetails,
+    });
+  } catch (error) {
+    console.error(`getTeamDetails controller error: ${error}`);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch team details",
+    });
+  }
+};
+
+const getAssignedComplaints = async (req, res) => {
+  try {
+    const { id } = req.params; // Assuming user ID is available in req.user after authentication
+    const complaints = await userService.getAssignedComplaints(id);
+    res.status(200).json({
+      success: true,
+      message: "Fetched assigned complaints successfully",
+      data: complaints,
+    });
+  } catch (error) {
+    console.error(`getAssignedComplaints controller error: ${error}`);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch assigned complaints",
+    });
+  }
+};
+
+// Update the status of a complaint
+const updateComplaintStatus = async (req, res) => {
+  try {
+    const { id } = req.params; // Complaint ID passed as a URL parameter
+    const { status } = req.body; // New status passed in the request body
+
+    const updatedComplaint = await userService.updateComplaintStatus(
+      id,
+      status
+    );
+    res.status(200).json({
+      success: true,
+      message: "Complaint status updated successfully",
+      data: updatedComplaint,
+    });
+  } catch (error) {
+    console.error(`updateComplaintStatus controller error: ${error}`);
+    res.status(400).json({
+      success: false,
+      message: error.message || "Failed to update complaint status",
+    });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
   createUser,
   updateUser,
   deleteUser,
+  // Employee
+  getTeamDetails,
+  getAssignedComplaints,
+  updateComplaintStatus,
 };
