@@ -1,4 +1,10 @@
-const { Resource, Area, Resource_Type } = require("../models/index");
+const {
+  Resource,
+  Area,
+  Resource_Type,
+  User,
+  Reservation,
+} = require("../models/index");
 const { v4: uuidv4 } = require("uuid");
 
 // Fetch all resources

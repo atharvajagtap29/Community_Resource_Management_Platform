@@ -1,0 +1,15 @@
+.container {
+    display: flex; /* Makes the layout flexible */
+  }
+  
+  .navbar {
+    width: 300px; /* Adjust based on your navbar's width */
+    flex-shrink: 0; /* Prevents the navbar from shrinking */
+  }
+  
+  .content {
+    flex-grow: 1; /* Ensures content takes the remaining space */
+    padding: 16px; /* Adds spacing around the content */
+    overflow: auto; /* Ensures scrollability if content overflows */
+  }
+  

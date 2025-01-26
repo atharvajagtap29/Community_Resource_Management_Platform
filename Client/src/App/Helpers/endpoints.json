@@ -1,0 +1,60 @@
+{
+  "ProjectName": "COMMUNITY_RESOURCE_MANAGEMENT_PLATFORM",
+  "ProjectVersion": "1.0.0",
+  "BACKEND_API_ENDPOINTS": {
+    "AUTH": {
+      "HEALTH_CHECK": "/healthcheck",
+      "LOGIN": "/auth/login",
+      "REGISTER": "/auth/register",
+      "LOGOUT": "/auth/logout"
+    },
+    "AREA": {
+      "CREATE": "/areas",
+      "READ": "/areas",
+      "UPDATE": "/areas",
+      "DELETE": "/areas"
+    },
+    "RESOURCE_TYPE": {
+      "CREATE": "/resource-types",
+      "READ": "/resource-types",
+      "UPDATE": "/resource-types",
+      "DELETE": "/resource-types"
+    },
+    "USER": {
+      "CREATE": "/users",
+      "READ": "/users",
+      "UPDATE": "/users",
+      "DELETE": "/users"
+    },
+    "RESOURCE": {
+      "CREATE": "/resources",
+      "READ": "/resources",
+      "UPDATE": "/resources",
+      "DELETE": "/resources"
+    },
+    "RESERVATION": {
+      "CREATE": "/reservations",
+      "READ": "/reservations",
+      "UPDATE": "/reservations",
+      "DELETE": "/reservations"
+    },
+    "COMPLAINT": {
+      "CREATE": "/complaints",
+      "READ": "/complaints",
+      "UPDATE": "/complaints",
+      "DELETE": "/complaints"
+    },
+    "TEAM": {
+      "CREATE": "/teams",
+      "READ": "/teams",
+      "UPDATE": "/teams",
+      "DELETE": "/teams"
+    },
+    "RESOURCE_REQUEST": {
+      "CREATE": "/resource-request",
+      "READ": "/resource-request",
+      "UPDATE": "/resource-request",
+      "DELETE": "/resource-request"
+    }
+  }
+}
