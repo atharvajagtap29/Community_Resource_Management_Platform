@@ -41,6 +41,9 @@ const getAreaById = async (req, res) => {
 const createArea = async (req, res) => {
   try {
     const { area_name, description } = req.body;
+
+    console.log(`BODY >>>>> ${JSON.stringify(req.body)}`);
+
     const area = await areasService.createArea({ area_name, description });
     res.status(201).json({
       success: true,

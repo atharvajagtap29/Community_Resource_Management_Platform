@@ -15,10 +15,10 @@
       "DELETE": "/areas"
     },
     "RESOURCE_TYPE": {
-      "CREATE": "/resource-types",
-      "READ": "/resource-types",
-      "UPDATE": "/resource-types",
-      "DELETE": "/resource-types"
+      "CREATE": "/resource_types",
+      "READ": "/resource_types",
+      "UPDATE": "/resource_types",
+      "DELETE": "/resource_types"
     },
     "USER": {
       "CREATE": "/users",

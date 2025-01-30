@@ -13,7 +13,13 @@ const teamRouter = require("./routes/team.routes");
 const resourceRequestRouter = require("./routes/resource_request.routes");
 
 // CORS middleware
-app.use(cors()); // Temporarily allow for all origins. Later only allow requests coming from react frontend
+// console.log(">>>>>>>>>", process.env.FRONTEND_ORIGIN);
+app.use(
+  cors({
+    origin: process.env.FRONTEND_ORIGIN,
+    credentials: true,
+  })
+); // Temporarily allow for all origins. Later only allow requests coming from react frontend
 
 // Parse json request bodies
 app.use(express.json());
