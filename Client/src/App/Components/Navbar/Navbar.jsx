@@ -12,6 +12,7 @@ import {
   IconSwitchHorizontal,
   IconMoon,
   IconSun,
+  IconUsers,
 } from "@tabler/icons-react";
 import { SegmentedControl, Text, useMantineColorScheme } from "@mantine/core";
 import "./Navbar.css";
@@ -22,6 +23,7 @@ const tabs = {
     { link: "/area", label: "Areas", icon: IconReceipt2 },
     { link: "/resource_type", label: "Resource Types", icon: IconFingerprint },
     { link: "/resource", label: "Resources", icon: IconKey },
+    { link: "/team", label: "Teams", icon: IconUsers },
     { link: "/user", label: "Users", icon: IconDatabaseImport },
     { link: "/reservation", label: "Reservations", icon: Icon2fa },
     { link: "/complaint", label: "Complaints", icon: IconSettings },

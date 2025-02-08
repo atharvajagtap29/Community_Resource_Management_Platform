@@ -8,7 +8,12 @@ const { COMPLAINT_STATUS } = require("../utils/constants");
 // Fetch all users
 const getAllUsers = async () => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      include: [
+        { model: Area, attributes: ["area_name"] },
+        { model: Team, attributes: ["team_name"] },
+      ],
+    });
     return users;
   } catch (error) {
     console.error(`getAllUsers service error: ${error}`);

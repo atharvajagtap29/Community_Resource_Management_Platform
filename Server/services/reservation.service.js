@@ -55,7 +55,7 @@ const createReservation = async ({
       user_id,
       start_time,
       end_time,
-      status: STATUS.PENDING,
+      reservation_status: STATUS.PENDING,
       created_at: new Date(),
     };
     return await Reservation.create(newReservation);

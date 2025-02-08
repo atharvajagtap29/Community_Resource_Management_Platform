@@ -62,13 +62,14 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { username, email, password, role, area_id } = req.body;
+    const { username, email, password, role, area_id, team_id } = req.body;
     const user = await userService.updateUser(id, {
       username,
       email,
       password,
       role,
       area_id,
+      team_id,
     });
     res.status(200).json({
       success: true,

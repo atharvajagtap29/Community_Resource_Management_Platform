@@ -29,7 +29,7 @@ export const CreateAreaAPI = async (payload) => {
 export const EditAreaAPI = async (payload, id) => {
   try {
     const response = await axiosInstance.put(
-      `${BACKEND_API_ENDPOINTS.AREA.CREATE}/${id}`,
+      `${BACKEND_API_ENDPOINTS.AREA.UPDATE}/${id}`,
       payload
     );
     return response.data;

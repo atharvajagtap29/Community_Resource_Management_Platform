@@ -8,7 +8,7 @@ import ResourceRequestPage from "./App/Pages/Resource_Request";
 import ResourceTypePage from "./App/Pages/Resource_Type";
 import ResourcePage from "./App/Pages/Resource";
 import UserPage from "./App/Pages/User";
-import Navbar from "./App/Components/Navbar/Navbar";
+import TeamPage from "./App/Pages/Team";
 
 const RouterComponent = () => {
   return (
@@ -22,6 +22,7 @@ const RouterComponent = () => {
         <Route path="/resource_type" element={<ResourceTypePage />} />
         <Route path="/resource" element={<ResourcePage />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/team" element={<TeamPage />} />
       </Routes>
     </Router>
   );
