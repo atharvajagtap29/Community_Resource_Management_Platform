@@ -2,6 +2,48 @@ const { User, Area, Team, Complaint } = require("../models/index");
 const { USER_ROLES } = require("../utils/constants");
 const { v4: uuidv4 } = require("uuid");
 const { COMPLAINT_STATUS } = require("../utils/constants");
+const jwt = require("jsonwebtoken");
+
+// AUTH
+// Sign in a user
+const signInUser = async (req, res) => {
+  try {
+    const user = req.user; // Authenticated user from middleware
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.TOKEN_EXPIRY }
+    );
+
+    // Set token in HTTP-only cookies
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+      maxAge: process.env.COOKIE_MAX_AGE,
+    });
+
+    // Set user info in HTTP-only cookies
+    res.cookie("user_info", JSON.stringify(user), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+      maxAge: process.env.COOKIE_MAX_AGE,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "User signed in successfully",
+      // token,
+      // user,
+    });
+  } catch (error) {
+    console.error("Sign-in service error:", error);
+    res.status(500).json({ message: "Error signing in user" });
+  }
+};
 
 // ADMIN SERVICES
 
@@ -230,6 +272,9 @@ const updateComplaintStatus = async (id, status) => {
 };
 
 module.exports = {
+  // Auth
+  signInUser,
+
   getAllUsers,
   getUserById,
   createUser,

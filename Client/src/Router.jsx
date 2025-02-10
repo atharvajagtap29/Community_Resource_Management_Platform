@@ -9,12 +9,14 @@ import ResourceTypePage from "./App/Pages/Resource_Type";
 import ResourcePage from "./App/Pages/Resource";
 import UserPage from "./App/Pages/User";
 import TeamPage from "./App/Pages/Team";
+import LoginPage from "./App/Pages/LoginPage";
 
 const RouterComponent = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<DashboardPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/area" element={<AreaPage />} />
         <Route path="/complaint" element={<ComplaintPage />} />
         <Route path="/reservation" element={<ReservationPage />} />

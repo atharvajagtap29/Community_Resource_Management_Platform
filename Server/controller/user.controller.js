@@ -1,5 +1,15 @@
 const userService = require("../services/user.service");
 
+// Sign In User
+const signInUser = async (req, res) => {
+  try {
+    await userService.signInUser(req, res);
+  } catch (error) {
+    console.error("Sign-in controller error:", error);
+    res.status(500).json({ message: "Failed to sign in" });
+  }
+};
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await userService.getAllUsers();
@@ -164,6 +174,7 @@ const updateComplaintStatus = async (req, res) => {
 };
 
 module.exports = {
+  signInUser,
   getAllUsers,
   getUserById,
   createUser,
