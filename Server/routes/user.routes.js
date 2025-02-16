@@ -5,10 +5,13 @@ const hashPasswordMiddleware = require("../middlewares/hash_pass.middleware");
 const comparePasswordMiddleware = require("../middlewares/compare_pass.middleware");
 const verifyRole = require("../middlewares/verify_role.middleware");
 const { USER_ROLES } = require("../utils/constants");
+const verifyToken = require("../middlewares/verify_token.middleware");
 
 // Auth route
 router.post("/", hashPasswordMiddleware, userController.createUser);
 router.post("/login", comparePasswordMiddleware, userController.signInUser);
+router.get("/check-auth", verifyToken, userController.checkAuthUser);
+router.post("/sign-out", userController.signOutUser);
 
 // Define routes
 router.get("/", verifyRole([USER_ROLES.ADMIN]), userController.getAllUsers);

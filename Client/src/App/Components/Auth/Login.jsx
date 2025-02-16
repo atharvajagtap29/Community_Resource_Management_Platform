@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TextInput,
   PasswordInput,
@@ -9,11 +9,36 @@ import {
   Space,
   Grid,
   Image,
-  Center,
 } from "@mantine/core";
 import login_page_image from "../../Images/login_page_image.svg";
+import { loginUserAPI } from "../../API/Users/User";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext"; // ✅ Import AuthContext
 
 const LoginComponent = () => {
+  const { login } = useAuth(); // ✅ Get login function from AuthContext
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    const payload = { email, password };
+
+    try {
+      const response = await loginUserAPI(payload);
+      console.log("Login successful:", response);
+
+      if (response?.success) {
+        login(response?.user); // ✅ Store user in AuthContext
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container
       size="xl"
@@ -25,7 +50,6 @@ const LoginComponent = () => {
       }}
     >
       <Grid style={{ flex: 1, height: "80vh" }} gutter={0} align="center">
-        {/* Left Side - Image */}
         <Grid.Col
           span={6}
           style={{ display: "flex", justifyContent: "center" }}
@@ -38,8 +62,6 @@ const LoginComponent = () => {
             marginTop={-100}
           />
         </Grid.Col>
-
-        {/* Right Side - Form */}
         <Grid.Col
           span={6}
           style={{ display: "flex", justifyContent: "center" }}
@@ -54,15 +76,23 @@ const LoginComponent = () => {
             <Title align="center" mb="md">
               Login
             </Title>
-            <TextInput label="Email" placeholder="you@example.com" required />
+            <TextInput
+              label="Email"
+              placeholder="you@example.com"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <PasswordInput
               label="Password"
               placeholder="Your password"
               required
               mt="md"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Space h="md" />
-            <Button fullWidth mt="xl">
+            <Button fullWidth mt="xl" onClick={handleSubmit} loading={loading}>
               Login
             </Button>
           </Paper>

@@ -17,31 +17,46 @@ const signInUser = async (req, res) => {
       { expiresIn: process.env.TOKEN_EXPIRY }
     );
 
-    // Set token in HTTP-only cookies
+    // Set the JWT token in the HTTP cookie
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      httpOnly: true, // Prevent client-side access to the cookie
+      maxAge: parseInt(process.env.COOKIE_MAX_AGE) * 60 * 60 * 1000, // Convert from hours to milliseconds
+      secure: process.env.NODE_ENV === "dev", // Only set secure flag in production environment
       sameSite: "None",
-      maxAge: process.env.COOKIE_MAX_AGE,
     });
 
     // Set user info in HTTP-only cookies
     res.cookie("user_info", JSON.stringify(user), {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      maxAge: parseInt(process.env.COOKIE_MAX_AGE) * 60 * 60 * 1000, // Convert from hours to milliseconds
+      secure: process.env.NODE_ENV === "dev", // Only set secure flag in production environment
       sameSite: "None",
-      maxAge: process.env.COOKIE_MAX_AGE,
     });
 
     res.status(200).json({
       success: true,
       message: "User signed in successfully",
       // token,
-      // user,
+      user,
     });
   } catch (error) {
     console.error("Sign-in service error:", error);
     res.status(500).json({ message: "Error signing in user" });
+  }
+};
+
+// Sign out a user
+const signOutUser = async (req, res) => {
+  try {
+    // Clear cookies
+    res.clearCookie("token");
+    res.clearCookie("user_info");
+    res
+      .status(200)
+      .json({ success: true, message: "User signed out successfully" });
+  } catch (error) {
+    console.error("Sign-out service error:", error);
+    res.status(500).json({ message: "Error signing out user" });
   }
 };
 
@@ -274,6 +289,7 @@ const updateComplaintStatus = async (id, status) => {
 module.exports = {
   // Auth
   signInUser,
+  signOutUser,
 
   getAllUsers,
   getUserById,

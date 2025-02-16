@@ -19,6 +19,7 @@ const resourceRequestRouter = require("./routes/resource_request.routes");
 app.use(
   cors({
     origin: process.env.FRONTEND_ORIGIN,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allow specified methods
     credentials: true,
   })
 );

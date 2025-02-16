@@ -10,6 +10,41 @@ const signInUser = async (req, res) => {
   }
 };
 
+// Sign Out User
+const signOutUser = async (req, res) => {
+  try {
+    await userService.signOutUser(req, res);
+  } catch (error) {
+    console.error("Sign-out controller error:", error);
+    res.status(500).json({ message: "Failed to sign out" });
+  }
+};
+
+// Check is user authenticated
+const checkAuthUser = async (req, res) => {
+  console.log("IN CHECK AUTH USER");
+  try {
+    const user = req.user; // Extracted from middleware
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "User is authenticated",
+      // data: user,
+    });
+  } catch (error) {
+    console.error("CheckAuth controller error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await userService.getAllUsers();
@@ -175,6 +210,8 @@ const updateComplaintStatus = async (req, res) => {
 
 module.exports = {
   signInUser,
+  checkAuthUser,
+  signOutUser,
   getAllUsers,
   getUserById,
   createUser,

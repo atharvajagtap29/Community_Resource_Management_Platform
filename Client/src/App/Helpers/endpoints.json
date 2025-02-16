@@ -2,12 +2,6 @@
   "ProjectName": "COMMUNITY_RESOURCE_MANAGEMENT_PLATFORM",
   "ProjectVersion": "1.0.0",
   "BACKEND_API_ENDPOINTS": {
-    "AUTH": {
-      "HEALTH_CHECK": "/healthcheck",
-      "LOGIN": "/auth/login",
-      "REGISTER": "/auth/register",
-      "LOGOUT": "/auth/logout"
-    },
     "AREA": {
       "CREATE": "/areas",
       "READ": "/areas",
@@ -21,6 +15,10 @@
       "DELETE": "/resource_types"
     },
     "USER": {
+      "LOGIN": "/users/login",
+      "CHECK": "/users/check-auth",
+      "REGISTER": "/users/register",
+      "LOGOUT": "/users/sign-out",
       "CREATE": "/users",
       "READ": "/users",
       "UPDATE": "/users",

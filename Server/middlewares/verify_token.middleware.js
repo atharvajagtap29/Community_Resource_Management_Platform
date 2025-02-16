@@ -5,6 +5,8 @@ const verifyToken = (req, res, next) => {
     // Retrieve token from cookies
     const token = req.cookies?.token;
 
+    console.log("Hello >>>>>> ", token);
+
     if (!token) {
       return res
         .status(401)

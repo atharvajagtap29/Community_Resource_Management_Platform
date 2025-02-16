@@ -16,6 +16,7 @@ import {
 } from "@tabler/icons-react";
 import { SegmentedControl, Text, useMantineColorScheme } from "@mantine/core";
 import "./Navbar.css";
+import { useAuth } from "../../Context/AuthContext";
 
 const tabs = {
   account: [
@@ -33,6 +34,7 @@ const tabs = {
 
 function NavbarSegmented() {
   const location = useLocation();
+  const { logout } = useAuth();
   const [section, setSection] = useState("account");
   const [active, setActive] = useState("");
 
@@ -100,7 +102,8 @@ function NavbarSegmented() {
           <span>Change account</span>
         </Link>
 
-        <Link className="link" to="/logout">
+        {/* ✅ Call AuthContext logout function */}
+        <Link className="link" to="#" onClick={logout}>
           <IconLogout className="linkIcon" stroke={1.5} />
           <span>Logout</span>
         </Link>
