@@ -17,9 +17,11 @@ import {
 import { SegmentedControl, Text, useMantineColorScheme } from "@mantine/core";
 import "./Navbar.css";
 import { useAuth } from "../../Context/AuthContext";
+import { USER_ROLES } from "../../Helpers/constants";
 
-const tabs = {
-  account: [
+// Define role-based accessible routes
+const roleBasedTabs = {
+  [USER_ROLES.ADMIN]: [
     { link: "/", label: "Dashboard", icon: IconBellRinging },
     { link: "/area", label: "Areas", icon: IconReceipt2 },
     { link: "/resource_type", label: "Resource Types", icon: IconFingerprint },
@@ -29,34 +31,47 @@ const tabs = {
     { link: "/reservation", label: "Reservations", icon: Icon2fa },
     { link: "/complaint", label: "Complaints", icon: IconSettings },
   ],
-  general: [],
+  [USER_ROLES.EMPLOYEE]: [
+    { link: "/", label: "Dashboard", icon: IconBellRinging },
+    { link: "/complaint", label: "Complaints", icon: IconSettings },
+  ],
+  [USER_ROLES.END_USER]: [
+    { link: "/", label: "Dashboard", icon: IconBellRinging },
+    { link: "/reservation", label: "Reservations", icon: Icon2fa },
+    { link: "/complaint", label: "Complaints", icon: IconSettings },
+  ],
+  [USER_ROLES.VENDOR]: [
+    { link: "/", label: "Dashboard", icon: IconBellRinging },
+  ],
 };
 
 function NavbarSegmented() {
   const location = useLocation();
-  const { logout } = useAuth();
-  const [section, setSection] = useState("account");
+  const { logout, user } = useAuth(); // Get user from AuthContext
   const [active, setActive] = useState("");
 
   // Mantine hooks for color scheme
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
+  // Get user's allowed links
+  const allowedLinks = roleBasedTabs[user?.role] || [];
+
   // Update the active tab based on location
   useEffect(() => {
-    const currentTab = tabs[section].find(
+    const currentTab = allowedLinks.find(
       (item) => item.link === location.pathname
     );
     if (currentTab) {
       setActive(currentTab.label);
     }
-  }, [location, section]);
+  }, [location, allowedLinks]);
 
   // Toggle between light and dark mode using Mantine's setColorScheme
   const toggleColorScheme = () => {
     setColorScheme(colorScheme === "dark" ? "light" : "dark");
   };
 
-  const links = tabs[section].map((item) => (
+  const links = allowedLinks.map((item) => (
     <Link
       className="link"
       data-active={item.label === active || undefined}
@@ -82,14 +97,8 @@ function NavbarSegmented() {
           transitionTimingFunction="ease"
           fullWidth
           data={[
-            {
-              label: <IconMoon />,
-              value: "dark",
-            },
-            {
-              label: <IconSun />,
-              value: "light",
-            },
+            { label: <IconMoon />, value: "dark" },
+            { label: <IconSun />, value: "light" },
           ]}
         />
       </div>
