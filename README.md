@@ -10,12 +10,25 @@ This project is a simulation of an ERP software system that I built primarily to
 
 ---
 
+## Project Overview
+
+This project simulates an **ERP-like Community Resource Management Platform** designed to manage shared resources within a community or organization. It allows **admins, employees, end-users, and vendors** to interact within a structured system where resources can be reserved, complaints managed, and team/vendor coordination handled efficiently.
+
+Key features include:
+
+- **User Management** with roles and permissions
+- **Resource Reservation System**
+- **Complaint Management Workflow**
+- **Area and Team Structuring**
+- **Vendor Subscription Management**
+
 ## Core Technologies Used
 
 - **Backend:** Node.js with Express.js
 - **Frontend:** React.js with Mantine UI and useReducer
 - **Database:** PostgreSQL (Planned migration to AWS RDS)
 - **ORM Tool:** Sequelize
+- **Deployment:** AWS Cloud
 
 ---
 
